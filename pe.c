@@ -142,6 +142,56 @@ void pe10(void)
 	free(temp);
 }
 
+int pe11(void)
+{
+	FILE *in = fopen("grid.txt", "r");
+	char buffer[2];
+	int arr[20][20];
+	for (int i = 0; i < 20; i++)
+		for (int j = 0; j < 20; j++)
+		{
+			fscanf(in, "%s", buffer);
+			arr[i][j] = atoi(buffer);
+		}
+	
+	int highest = 0;
+	
+	for (int i = 0; i < 20; i++)
+		for (int j = 0; j < 17; j++)
+		{
+			int product = 1;
+			int product1 = 1;
+			for (int k = j; k < j + 4; k++)
+			{
+				product *= arr[i][k];
+				product1 *= arr[k][i];
+			}
+			if (product > highest)
+				highest = product;
+			if (product1 > highest)
+				highest = product1;
+		}
+	
+	for (int i = 0; i < 17; i++)
+		for (int k = 0; k < 17; k++)
+		{
+			int product = 1;
+			int product1 = 1;
+			for (int j = 0; j < 4; j++)
+			{
+				product *= arr[i+j][k+j];
+				product1 *= arr[19-i-j][k+j];
+			}
+			if (product > highest)
+				highest = product;
+			if (product1 > highest)
+				highest = product1;
+		}
+		
+	printf("%i\n", highest);
+	fclose(in);
+}
+
 int main(int argc, char *argv[])
 {
 	int x;
@@ -187,6 +237,9 @@ int main(int argc, char *argv[])
 		break;
 		case 10:
 		pe10();
+		break;
+		case 11:
+		pe11();
 		break;
 		
 		default:
