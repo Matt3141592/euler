@@ -8,6 +8,7 @@ int prime(long x);
 int palindrome(int x);
 int *primegen(int x);
 int m(int a, int b, int c);
+int factors(int x, int *primes);
 
 void pe1(void)
 {
@@ -192,6 +193,17 @@ int pe11(void)
     return 1;
 }
 
+void pe12(void)
+{
+    int count = 2;
+    int triangle = 1;
+    int *primes = primegen(10000);
+    while (factors(triangle, primes) < 500)
+        triangle += count++;
+    printf("%i\n", triangle);
+    free(primes);
+}
+
 int main(int argc, char *argv[])
 {
 	int x;
@@ -208,39 +220,42 @@ int main(int argc, char *argv[])
 	switch (x)
 	{
 		case 1:
-		pe1();
-		break;
+            pe1();
+            break;
 		case 2:
-		pe2();
-		break;
+            pe2();
+            break;
 		case 3:
-		pe3();
-		break;
+            pe3();
+            break;
 		case 4:
-		pe4();
-		break;
+            pe4();
+            break;
 		case 5:
-		pe5();
-		break;
+            pe5();
+            break;
 		case 6:
-		pe6();
-		break;
+            pe6();
+            break;
 		case 7:
-		pe7();
-		break;
+            pe7();
+            break;
 		case 8:
-		pe8();
-		break;
+            pe8();
+            break;
 		case 9:
-		pe9();
-		break;
+            pe9();
+            break;
 		case 10:
-		pe10();
-		break;
+            pe10();
+            break;
 		case 11:
-		pe11();
-		break;
-		
+            pe11();
+            break;
+        case 12:
+            pe12();
+            break;
+            
 		default:
 		printf("Invalid\n");
 	}
@@ -273,7 +288,7 @@ int palindrome(int x)
 
 int *primegen(int x)
 {
-	int arr[x + 1];
+	int *arr = malloc(sizeof(int) * (x+1));
 	int count = 1;
 	
 	for (int i = 0; i <= x; i++)
@@ -293,6 +308,7 @@ int *primegen(int x)
 	for (int i = 2; i <= x; i++)
 		if (arr[i])
 			primes[count++] = i;
+    free(arr);
 	return primes;
 }
 
@@ -314,4 +330,23 @@ int m(int a, int b, int c)
 	if (m(a - (b<<1) + 2*c, (a<<1) - b + (c<<1), (a<<1) - (b<<1) + (c<<1) + c))
 		return 1;
     return 0;
+}
+
+int factors(int x, int *primes)
+{
+    int result = 1;
+    while(*primes && x != 1)
+    {
+        int count = 1;
+        while (!(x % *primes))
+        {
+            x /= *primes;
+            count++;
+        }
+        result *= count;
+        count++;
+        primes++;
+    }
+    //printf("%i\n", result);
+    return result;
 }
