@@ -219,16 +219,17 @@ void pe13(void)
     {
         fscanf(in, "%s", buffer);
         for (int j = 0; j < 50; j++)
-        {
             arr[j] += buffer[j] - 48;
-            printf("%i ", arr[j]);
-        }
-        printf("\n");
     }
     
-    for (int i = 0; i < 50; i++)
-        printf("%i ", arr[i]);
-    printf("\n%i\n", arr[0]);
+    int carry = 0;
+    for (int i = 49; i >= 0; i--)
+    {
+        arr[i] += carry;
+        carry = arr[i] / 10;
+        arr[i] = arr[i] % 10;
+    }
+    printf("\n%i\n", carry);
     fclose(in);
 }
 
