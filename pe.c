@@ -9,6 +9,7 @@ int palindrome(int x);
 int *primegen(int x);
 int m(int a, int b, int c);
 int factors(int x, int *primes);
+int collatz(int x);
 
 void pe1(void)
 {
@@ -99,12 +100,12 @@ void pe7(void)
 	free(primes);
 }
 
-int pe8(void)
+void pe8(void)
 {
 	char buffer[1000];
 	FILE *in = fopen("digits.txt", "r");
 	if (in == NULL)
-		return 0;
+		return;
 	
 	long highest = 0;
 	fscanf(in, "%s", buffer);
@@ -118,7 +119,6 @@ int pe8(void)
 	}
 	printf("%li\n", highest);
 	fclose(in);
-	return 1;
 }
 
 void pe9(void)
@@ -141,11 +141,11 @@ void pe10(void)
 	free(temp);
 }
 
-int pe11(void)
+void pe11(void)
 {
 	FILE *in = fopen("grid.txt", "r");
     if (in == NULL)
-        return 0;
+        return;
 	char buffer[2];
 	int arr[20][20];
     int highest;
@@ -190,7 +190,6 @@ int pe11(void)
 		
 	printf("%i\n", highest);
 	fclose(in);
-    return 1;
 }
 
 void pe12(void)
@@ -234,6 +233,22 @@ void pe13(void)
         printf("%i", arr[i]);
     printf("\n");
     fclose(in);
+}
+
+void pe14(void)
+{
+    int highest = 0;
+    int ans;
+    for (int i = 1; i < 1000000; i++)
+    {
+        int x = collatz(i);
+        if (x > highest)
+        {
+            highest = x;
+            ans = i;
+        }
+    }
+    printf("%i\n", ans);
 }
 
 int main(int argc, char *argv[])
@@ -288,6 +303,9 @@ int main(int argc, char *argv[])
             pe12();
             break;
         case 13:
+            pe13();
+            break;
+        case 14:
             pe13();
             break;
             
@@ -384,4 +402,18 @@ int factors(int x, int *primes)
     }
     //printf("%i\n", result);
     return result;
+}
+
+int collatz(int x)
+{
+    int count = 1;
+    while (x != 1)
+    {
+        if (x & 1)
+            x = (x << 1) + x + 1;
+        else
+            x = x >> 1;
+        count++;
+    }
+    return count;
 }
