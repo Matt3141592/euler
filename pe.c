@@ -4,8 +4,6 @@
 #include <string.h>
 #include <time.h>
 
-//git test
-
 int prime(long x);
 int palindrome(int x);
 int *primegen(int x);
