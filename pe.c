@@ -143,16 +143,17 @@ void pe10(void)
 int pe11(void)
 {
 	FILE *in = fopen("grid.txt", "r");
+    if (in == NULL)
+        return 0;
 	char buffer[2];
 	int arr[20][20];
+    int highest;
 	for (int i = 0; i < 20; i++)
 		for (int j = 0; j < 20; j++)
 		{
 			fscanf(in, "%s", buffer);
 			arr[i][j] = atoi(buffer);
 		}
-	
-	int highest = 0;
 	
 	for (int i = 0; i < 20; i++)
 		for (int j = 0; j < 17; j++)
@@ -188,6 +189,7 @@ int pe11(void)
 		
 	printf("%i\n", highest);
 	fclose(in);
+    return 1;
 }
 
 int main(int argc, char *argv[])
@@ -205,8 +207,7 @@ int main(int argc, char *argv[])
 	
 	switch (x)
 	{
-		case 1
-		:
+		case 1:
 		pe1();
 		break;
 		case 2:
@@ -312,4 +313,5 @@ int m(int a, int b, int c)
 		return 1;
 	if (m(a - (b<<1) + 2*c, (a<<1) - b + (c<<1), (a<<1) - (b<<1) + (c<<1) + c))
 		return 1;
+    return 0;
 }
