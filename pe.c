@@ -229,7 +229,10 @@ void pe13(void)
         carry = arr[i] / 10;
         arr[i] = arr[i] % 10;
     }
-    printf("\n%i\n", carry);
+    printf("%i", carry);
+    for (int i = 0; i < 8; i++)
+        printf("%i", arr[i]);
+    printf("\n");
     fclose(in);
 }
 
