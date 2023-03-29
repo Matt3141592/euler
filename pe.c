@@ -204,6 +204,34 @@ void pe12(void)
     free(primes);
 }
 
+void pe13(void)
+{
+    FILE *in = fopen("pe13.txt", "r");
+    if (in == NULL)
+        return;
+    
+    int arr[50];
+    for (int i = 0; i < 50; i++)
+        arr[i] = 0;
+    
+    char buffer[50];
+    for (int i = 0; i < 100; i++)
+    {
+        fscanf(in, "%s", buffer);
+        for (int j = 0; j < 50; j++)
+        {
+            arr[j] += buffer[j] - 48;
+            printf("%i ", arr[j]);
+        }
+        printf("\n");
+    }
+    
+    for (int i = 0; i < 50; i++)
+        printf("%i ", arr[i]);
+    printf("\n%i\n", arr[0]);
+    fclose(in);
+}
+
 int main(int argc, char *argv[])
 {
 	int x;
@@ -254,6 +282,9 @@ int main(int argc, char *argv[])
             break;
         case 12:
             pe12();
+            break;
+        case 13:
+            pe13();
             break;
             
 		default:
