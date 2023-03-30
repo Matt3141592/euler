@@ -9,7 +9,7 @@ int palindrome(int x);
 int *primegen(int x);
 int m(int a, int b, int c);
 int factors(int x, int *primes);
-int collatz(int x);
+int collatz(long x);
 
 void pe1(void)
 {
@@ -238,8 +238,8 @@ void pe13(void)
 void pe14(void)
 {
     int highest = 0;
-    int ans;
-    for (int i = 1; i < 1000000; i++)
+    int ans = 0;
+    for (long i = 1; i < 1000000; i++)
     {
         int x = collatz(i);
         if (x > highest)
@@ -249,6 +249,18 @@ void pe14(void)
         }
     }
     printf("%i\n", ans);
+}
+
+void pe15(void)
+{
+    // must include 20 downs and 20 rights.
+    // 40C20
+    double ans = 1;
+    for (int i = 21; i <= 40; i++)
+        ans *= (double)i;
+    for (int i = 1; i < 21; i++)
+        ans /= (double)i;
+    printf("%.0f\n", ans);
 }
 
 int main(int argc, char *argv[])
@@ -306,7 +318,10 @@ int main(int argc, char *argv[])
             pe13();
             break;
         case 14:
-            pe13();
+            pe14();
+            break;
+        case 15:
+            pe15();
             break;
             
 		default:
@@ -404,12 +419,12 @@ int factors(int x, int *primes)
     return result;
 }
 
-int collatz(int x)
+int collatz(long x)
 {
     int count = 1;
     while (x != 1)
     {
-        if (x & 1)
+        if ((x & 1))
             x = (x << 1) + x + 1;
         else
             x = x >> 1;
