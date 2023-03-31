@@ -332,6 +332,27 @@ void pe18(void)
     printf("%i\n", arr[0][0]);
 }
 
+void pe67(void)
+{
+    FILE *in = fopen("pe67.txt", "r");
+    if (in == NULL)
+        return;
+    int arr[100][100];
+    char buffer[2];
+    for (int i = 0; i < 15; i++)
+        for (int j = 0; j <= i; j++)
+        {
+            fscanf(in, "%s", buffer);
+            arr[i][j] = atoi(buffer);
+        }
+    fclose(in);
+    
+    for (int i = 99; i >= 0; i--)
+        for (int j = 0; j < i; j++)
+            arr[i - 1][j] += arr[i][j] * (arr[i][j] > arr[i][j + 1]) + arr[i][j + 1] * (arr[i][j] <= arr[i][j + 1]);
+    printf("%i\n", arr[0][0]);
+}
+
 int main(int argc, char *argv[])
 {
 	int x;
