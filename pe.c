@@ -39,8 +39,11 @@ void pe3(void)
 	long ans;
 	for (long i = 3; i * i <= x; i += 2)
 		if (!(x % i))
-			if (prime(i))
-				ans = i;
+        {
+            x /= i;
+            if (prime(i))
+                ans = i;
+        }
 	printf("%li\n", ans);
 }
 
@@ -263,6 +266,31 @@ void pe15(void)
     printf("%.0f\n", ans);
 }
 
+void pe16(void)
+{
+    int arr[350];
+    for (int i = 0; i < 350; i++)
+        arr[i] = 0;
+    arr[0] = 1;
+    
+    for (int i = 0; i < 100; i++)
+    {
+        int carry = 0;
+        for (int k = 0; k < 350; k++)
+        {
+            arr[k] = arr[k] << 10;
+            arr[k] += carry;
+            carry = arr[k] / 10;
+            arr[k] = arr[k] % 10;
+        }
+    }
+    
+    int sum = 0;
+    for (int i = 0; i < 350; i++)
+        sum += arr[i];
+    printf("%i\n", sum);
+}
+
 int main(int argc, char *argv[])
 {
 	int x;
@@ -323,6 +351,9 @@ int main(int argc, char *argv[])
         case 15:
             pe15();
             break;
+        case 16:
+            pe16();
+            break;
             
 		default:
 		printf("Invalid\n");
@@ -354,15 +385,15 @@ int palindrome(int x)
 	return 1;
 }
 
-int *primegen(int x)
+/*int *primegen(int x)
 {
 	int *arr = malloc(sizeof(int) * (x+1));
-	int count = 1;
+	int count = 2;
 	
 	for (int i = 0; i <= x; i++)
 		arr[i] = 1;
 		
-	for (int i = 2; i < x; i++)
+	for (int i = 3; i * i <= x; i += 2)
 		if (arr[i])
 		{
 			for (int j = i + i; j <= x; j += i)
@@ -371,13 +402,45 @@ int *primegen(int x)
 		}
 	
 	int *primes = malloc(count * sizeof(int));
+    primes[0] = 2;
 	primes[count - 1] = 0; // so the end can be found without knowing length
-	count = 0;
-	for (int i = 2; i <= x; i++)
+	count = 1;
+    for (int i = 3; i <= x; i += 2)
 		if (arr[i])
 			primes[count++] = i;
     free(arr);
 	return primes;
+}*/
+
+int *primegen(int x)
+{
+    int y = (x + 1) >> 1;
+    int *arr = malloc(sizeof(int) * y);
+    
+    for (int i = 0; i < y; i++)
+        arr[i] = 1;
+    
+    int count = 2;
+    for (int i = 1; i < y; i++)
+        if (arr[i])
+        {
+            int a = (i << 1) + 1;
+            for (int j = i + a; j < y; j += a)
+                arr[j] = 0;
+            count++;
+        }
+    
+    int *primes = malloc(sizeof(int) * count);
+    primes[0] = 2;
+    primes[count - 1] = 0;
+    count = 1;
+    
+    for (int i = 1; i < y; i++)
+        if (arr[i])
+            primes[count++] = (i << 1) + 1;
+    
+    free(arr);
+    return primes;
 }
 
 int m(int a, int b, int c)
