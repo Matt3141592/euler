@@ -339,7 +339,7 @@ void pe67(void)
         return;
     int arr[100][100];
     char buffer[2];
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 100; i++)
         for (int j = 0; j <= i; j++)
         {
             fscanf(in, "%s", buffer);
@@ -459,18 +459,19 @@ int palindrome(int x)
 /*int *primegen(int x)
 {
 	int *arr = malloc(sizeof(int) * (x+1));
-	int count = 2;
 	
 	for (int i = 3; i <= x; i += 2)
 		arr[i] = 1;
 		
 	for (int i = 3; i * i <= x; i += 2)
 		if (arr[i])
-		{
 			for (int j = i + i; j <= x; j += i)
 				arr[j] = 0;
-			count++;
-		}
+ 
+    int count = 2;
+    for (int i = 3; i <= x; i += 2)
+        if (arr[i])
+            count++;
 	
 	int *primes = malloc(count * sizeof(int));
     primes[0] = 2;
@@ -491,15 +492,17 @@ int *primegen(int x)
     for (int i = 0; i < y; i++)
         arr[i] = 1;
     
-    int count = 2;
     for (int i = 1; (i * i) << 1 <= y; i++)
         if (arr[i])
         {
             int a = (i << 1) + 1;
             for (int j = i + a; j < y; j += a)
                 arr[j] = 0;
-            count++;
         }
+    
+    int count = 2;
+    for (int i = 1; i < y; i++)
+        count += arr[i];
     
     int *primes = malloc(sizeof(int) * count);
     primes[0] = 2;
