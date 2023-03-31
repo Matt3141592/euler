@@ -10,6 +10,7 @@ int *primegen(int x);
 int m(int a, int b, int c);
 int factors(int x, int *primes);
 int collatz(long x);
+int triangle(int **arr, int x);
 
 void pe1(void)
 {
@@ -316,24 +317,21 @@ void pe18(void)
     FILE *in = fopen("pe18.txt", "r");
     if (in == NULL)
         return;
-    int arr[15][15];
+    int **arr = malloc(sizeof(int **) * 15);
+    for (int i = 0; i < 15; i++)
+        arr[i] = malloc(sizeof(int *) * 15);
     char buffer[2];
     for (int i = 0; i < 15; i++)
         for (int j = 0; j <= i; j++)
         {
             fscanf(in, "%s", buffer);
-            printf("%s ", buffer);
             arr[i][j] = atoi(buffer);
         }
     fclose(in);
-    
     for (int i = 0; i < 15; i++)
-    {
-        for (int j = 0; j <= i; j++)
-            printf("%i \n", arr[i][j]);
-        printf("\n");
-    }
-            
+        free(arr[i]);
+    free(arr);
+    printf("%i\n", triangle(arr, 15));
 }
 
 int main(int argc, char *argv[])
@@ -545,4 +543,12 @@ int collatz(long x)
         count++;
     }
     return count;
+}
+
+int triangle(int **arr, int x)
+{
+    for (int i = x - 1; i >=0; i--)
+        for (int j = 0; j < i; j++)
+            arr[i - 1][j] += arr[i][j] * (arr[i][j] > arr[i][j + 1]) + arr[i][j + 1] * (arr[i][j] <= arr[i][j + 1]);
+    return arr[0][0];
 }
