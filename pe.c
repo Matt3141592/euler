@@ -422,6 +422,9 @@ int main(int argc, char *argv[])
         case 18:
             pe18();
             break;
+        case 67:
+            pe67();
+            break;
             
 		default:
 		printf("Invalid\n");
