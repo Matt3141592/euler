@@ -291,6 +291,51 @@ void pe16(void)
     printf("%i\n", sum);
 }
 
+void pe17(void)
+{
+    int total = 0;
+    int onetonine = 36; // 3 3 5 4 4 3 5 5 4
+    int and = 3;
+    int hundred = 7;
+    int teens = 69; // 3 6 6 8 8 7 7 9 8 8
+    int tens = 46; // 6 6 5 5 5 7 6 6
+    
+    total += onetonine * 90;
+    total += onetonine * 100;
+    total += and * 99 * 9;
+    total += hundred * 900;
+    total += teens * 10;
+    total += tens * 100;
+    total += 11;
+    
+    printf("%i\n", total);
+}
+
+void pe18(void)
+{
+    FILE *in = fopen("pe18.txt", "r");
+    if (in == NULL)
+        return;
+    int arr[15][15];
+    char buffer[2];
+    for (int i = 0; i < 15; i++)
+        for (int j = 0; j <= i; j++)
+        {
+            fscanf(in, "%s", buffer);
+            printf("%s ", buffer);
+            arr[i][j] = atoi(buffer);
+        }
+    fclose(in);
+    
+    for (int i = 0; i < 15; i++)
+    {
+        for (int j = 0; j <= i; j++)
+            printf("%i \n", arr[i][j]);
+        printf("\n");
+    }
+            
+}
+
 int main(int argc, char *argv[])
 {
 	int x;
@@ -354,6 +399,12 @@ int main(int argc, char *argv[])
         case 16:
             pe16();
             break;
+        case 17:
+            pe17();
+            break;
+        case 18:
+            pe18();
+            break;
             
 		default:
 		printf("Invalid\n");
@@ -390,7 +441,7 @@ int palindrome(int x)
 	int *arr = malloc(sizeof(int) * (x+1));
 	int count = 2;
 	
-	for (int i = 0; i <= x; i++)
+	for (int i = 3; i <= x; i += 2)
 		arr[i] = 1;
 		
 	for (int i = 3; i * i <= x; i += 2)
@@ -421,7 +472,7 @@ int *primegen(int x)
         arr[i] = 1;
     
     int count = 2;
-    for (int i = 1; i < y; i++)
+    for (int i = 1; (i * i) << 1 <= y; i++)
         if (arr[i])
         {
             int a = (i << 1) + 1;
