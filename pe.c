@@ -332,6 +332,55 @@ void pe18(void)
     printf("%i\n", arr[0][0]);
 }
 
+void pe19(void)
+{
+    int days[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    int day = 0; // 0 is monday
+    for (int i = 0; i < 12; i++)
+        day += days[i];
+    day %= 7;
+    
+    int ans = 0;
+    for (int i = 1901; i <= 2000; i++)
+        for (int j = 0; j < 12; j++)
+        {
+            if (day == 6)
+                ans++;
+            day += days[j];
+            if (j == 1 && !(i % 4))
+                day++;
+            day %= 7;
+        }
+    printf("%i\n", ans);
+}
+
+void pe20(void)
+{
+    int arr[200];
+    for (int i = 0; i < 200; i++)
+        arr[i] = 0;
+    
+    arr[0] = 1;
+    for (int i = 2; i < 100; i++)
+    {
+        int carry = 0;
+        for (int j = 0; j < 200; j++)
+        {
+            arr[j] *= i;
+            arr[j] += carry;
+            carry = arr[j] / 10;
+            arr[j] %= 10;
+        }
+    }
+    
+    int sum = 0;
+    for (int i = 0; i < 200; i++)
+        sum += arr[i];
+    
+    printf("%i\n", sum);
+        
+}
+
 void pe67(void)
 {
     FILE *in = fopen("pe67.txt", "r");
@@ -421,6 +470,12 @@ int main(int argc, char *argv[])
             break;
         case 18:
             pe18();
+            break;
+        case 19:
+            pe19();
+            break;
+        case 20:
+            pe20();
             break;
         case 67:
             pe67();
