@@ -378,7 +378,26 @@ void pe20(void)
         sum += arr[i];
     
     printf("%i\n", sum);
-        
+}
+
+void pe21(void)
+{
+    int arr[10000];
+    
+    for (int i = 0; i < 10000; i++)
+    {
+        arr[i] = 1;
+        for (int j = 2; j * j <= i; j++)
+            if (!(i % j))
+                arr[i] += j + (i / j) * (j * j != i);
+    }
+    
+    int ans = 0;
+    for (int i = 2; i < 10000; i++)
+        if (arr[i] < 10000)
+            if (i == arr[arr[i]] && i != arr[i])
+                ans += i;
+    printf("%i\n", ans);
 }
 
 void pe67(void)
@@ -476,6 +495,9 @@ int main(int argc, char *argv[])
             break;
         case 20:
             pe20();
+            break;
+        case 21:
+            pe21();
             break;
         case 67:
             pe67();
@@ -607,7 +629,6 @@ int factors(int x, int *primes)
         count++;
         primes++;
     }
-    //printf("%i\n", result);
     return result;
 }
 
