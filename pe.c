@@ -449,6 +449,38 @@ void pe22(void)
     printf("%i\n", ans);
 }
 
+void pe23(void)
+{
+    int abundant[28123];
+    int summable[28123];
+    for (int i = 0; i < 28123; i++)
+    {
+        abundant[i] = 0;
+        summable[i] = 0;
+    }
+    
+    for (int i = 1; i < 28123; i++)
+    {
+        int sum = 1;
+        for (int j = 2; j * j <= i; j++)
+            if (!(i % j))
+                sum += j + (i / j) * (j * j != i);
+        abundant[i] = sum > i;
+    }
+        
+    for (int i = 0; i < 28123; i++)
+        if (abundant[i])
+            for (int j = i; i + j < 28123; j++)
+                if (abundant[j])
+                    summable[i + j] = 1;
+    
+    int sum = 0;
+    for (int i = 0; i < 28123; i++)
+        sum += i * !summable[i];
+    printf("%i\n", sum);
+    
+}
+
 void pe67(void)
 {
     FILE *in = fopen("pe67.txt", "r");
@@ -550,6 +582,9 @@ int main(int argc, char *argv[])
             break;
         case 22:
             pe22();
+            break;
+        case 23:
+            pe23();
             break;
         case 67:
             pe67();
