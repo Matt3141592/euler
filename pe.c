@@ -4,12 +4,20 @@
 #include <string.h>
 #include <time.h>
 
+typedef struct node
+{
+    char str[15];
+    struct node *next;
+}node;
+
 int prime(long x);
 int palindrome(int x);
 int *primegen(int x);
 int m(int a, int b, int c);
 int factors(int x, int *primes);
 int collatz(long x);
+node *quick(node *list);
+void freelist(node *list);
 
 void pe1(void)
 {
@@ -400,6 +408,47 @@ void pe21(void)
     printf("%i\n", ans);
 }
 
+void pe22(void)
+{
+    FILE *in = fopen("pe22.txt", "r");
+    char buffer[50000];
+    fscanf(in, "%s", buffer);
+    fclose(in);
+    
+    node *buckets[26];
+    for (int i = 0; i < 26; i++)
+        buckets[i] = NULL;
+    
+    char *name = strtok(buffer, "\",\"");
+    while (name != NULL)
+    {
+        node *n = malloc(sizeof(node));
+        strcpy(n -> str, name);
+        n -> next = buckets[n -> str[0] - 'A'];
+        buckets[n -> str[0] - 'A'] = n;
+        name = strtok(NULL, "\",\"");
+    }
+    
+    int ans = 0;
+    int count = 1;
+    for (int i = 0; i < 26; i++)
+    {
+        buckets[i] = quick(buckets[i]);
+        node *temp = buckets[i];
+        
+        while (temp != NULL)
+        {
+            name = temp -> str;
+            while (*name)
+                ans += count * (*name++ - '@');
+            count++;
+            temp = temp -> next;
+        }
+        freelist(buckets[i]);
+    }
+    printf("%i\n", ans);
+}
+
 void pe67(void)
 {
     FILE *in = fopen("pe67.txt", "r");
@@ -498,6 +547,9 @@ int main(int argc, char *argv[])
             break;
         case 21:
             pe21();
+            break;
+        case 22:
+            pe22();
             break;
         case 67:
             pe67();
@@ -644,4 +696,54 @@ int collatz(long x)
         count++;
     }
     return count;
+}
+
+void freelist(node *list)
+{
+    node *temp = list;
+    while (list != NULL)
+    {
+        list = list -> next;
+        free(temp);
+        temp = list;
+    }
+}
+
+node *quick(node *list)
+{
+    if (list == NULL)
+        return NULL;
+    node *small = NULL;
+    node *big = NULL;
+    node *piv = list;
+    
+    list = list -> next;
+    while (list != NULL)
+    {
+        node *temp = list -> next;
+        if (strcmp(list -> str, piv -> str) < 0)
+        {
+            list -> next = small;
+            small = list;
+        }
+        else
+        {
+            list -> next = big;
+            big = list;
+        }
+        list = temp;
+    }
+    small = quick(small);
+    piv -> next = quick(big);
+    
+    node *temp = small;
+    if (temp != NULL)
+    {
+        while (temp -> next != NULL)
+            temp = temp -> next;
+        temp -> next = piv;
+    }
+    else
+        small = piv;
+    return small;
 }
