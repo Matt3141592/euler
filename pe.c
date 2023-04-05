@@ -19,7 +19,8 @@ int collatz(long x);
 node *quick(node *list);
 void freelist(node *list);
 int lexi(long x);
-void heap(char *digits, int n, long *patterns, int *count);
+void heap(char digits[], int n, long *patterns, int *count);
+void merge(long list[], int start, int end);
 
 void pe1(void)
 {
@@ -485,11 +486,14 @@ void pe23(void)
 
 void pe24(void)
 {
-    char *digits = "0123456789";
+    char digits[] = "0123456789";
     long *patterns = malloc(sizeof(long) * 3628800);
     int count = 0;
     heap(digits, 10, patterns, &count);
-    printf("%li\n", patterns[0]);
+    merge(patterns, 0, 3628799);
+    
+    printf("%li\n", patterns[999999]);
+    free(patterns);
 }
 
 void pe67(void)
@@ -817,11 +821,11 @@ int lexi(long x)
     return nums[0] < 1;
 }
 
-void heap(char *digits, int n, long *patterns, int *count)
+void heap(char digits[], int n, long *patterns, int *count)
 {
     if (n == 1)
     {
-        patterns[*count++] = strtol(digits, NULL, 10);
+        patterns[(*count)++] = strtol(digits, NULL, 10);
         return;
     }
     
@@ -841,4 +845,66 @@ void heap(char *digits, int n, long *patterns, int *count)
             digits[i] = temp;
         }
     }
+}
+
+void insert(long list[], int start, int end)
+{
+    for (int i = start + 1; i <= end; i++)
+    {
+        long x = list[i];
+        int j = i;
+        while (j > start)
+        {
+            if (x < list[j - 1])
+            {
+                list[j] = list[j - 1];
+                j--;
+            }
+            else
+                break;
+        }
+        list[j] = x;
+    }
+}
+
+void merge(long list[], int start, int end)
+{
+    if (end == start)
+        return;
+    
+    int y = end - start;
+    if (y < 32)
+    {
+        insert(list, start, end);
+        return;
+    }
+    int x = y >> 1;
+    
+    merge(list, start, x + start);
+    merge(list, x + 1 + start, end);
+    
+    long left = 0;
+    long right = x + 1;
+    long *temp = malloc(sizeof(long) * (y + 1));
+    for (int i = 0; i <= y; i++)
+        temp[i] = list[start + i];
+    
+    for (int i = 0; i <= y; i++)
+    {
+        if (right <= y && left <= x)
+        {
+            if (temp[left] >= temp[right])
+                list[start + i] = temp[right++];
+            else
+                list[start + i] = temp[left++];
+        }
+        else
+        {
+            if(right <= y)
+                list[start + i] = temp[right++];
+            else
+                list[start + i] = temp[left++];
+        }
+    }
+    free(temp);
 }
