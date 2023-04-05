@@ -18,6 +18,8 @@ int factors(int x, int *primes);
 int collatz(long x);
 node *quick(node *list);
 void freelist(node *list);
+int lexi(long x);
+void heap(char *digits, int n, long *patterns, int *count);
 
 void pe1(void)
 {
@@ -481,6 +483,15 @@ void pe23(void)
     
 }
 
+void pe24(void)
+{
+    char *digits = "0123456789";
+    long *patterns = malloc(sizeof(long) * 3628800);
+    int count = 0;
+    heap(digits, 10, patterns, &count);
+    printf("%li\n", patterns[0]);
+}
+
 void pe67(void)
 {
     FILE *in = fopen("pe67.txt", "r");
@@ -585,6 +596,9 @@ int main(int argc, char *argv[])
             break;
         case 23:
             pe23();
+            break;
+        case 24:
+            pe24();
             break;
         case 67:
             pe67();
@@ -781,4 +795,50 @@ node *quick(node *list)
     else
         small = piv;
     return small;
+}
+
+int lexi(long x)
+{
+    char str[11];
+    sprintf(str, "%li", x);
+    char *p = str;
+    int nums[10];
+    
+    for (int i = 0; i < 10; i++)
+        nums[i] = 0;
+    
+    while (*p)
+        nums[*p++ - '0']++;
+    
+    for (int i = 1; i < 10; i++)
+        if (nums[i] != 1)
+            return 0;
+    
+    return nums[0] < 1;
+}
+
+void heap(char *digits, int n, long *patterns, int *count)
+{
+    if (n == 1)
+    {
+        patterns[*count++] = strtol(digits, NULL, 10);
+        return;
+    }
+    
+    for (int i = 0; i < n; i++)
+    {
+        heap(digits, n - 1, patterns, count);
+        char temp = digits[n - 1];
+        
+        if ((n & 1))
+        {
+            digits[n - 1] = digits[0];
+            digits[0] = temp;
+        }
+        else
+        {
+            digits[n - 1] = digits[i];
+            digits[i] = temp;
+        }
+    }
 }
