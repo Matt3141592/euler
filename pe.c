@@ -942,4 +942,3 @@ void merge(long list[], int start, int end)
     }
     free(temp);
 }
-// is this working?
