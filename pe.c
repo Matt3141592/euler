@@ -147,14 +147,13 @@ int pe11(void)
 	FILE *in = fopen("grid.txt", "r");
 	char buffer[2];
 	int arr[20][20];
+	int highest = 0;
 	for (int i = 0; i < 20; i++)
 		for (int j = 0; j < 20; j++)
 		{
 			fscanf(in, "%s", buffer);
 			arr[i][j] = atoi(buffer);
 		}
-	
-	int highest = 0;
 	
 	for (int i = 0; i < 20; i++)
 		for (int j = 0; j < 17; j++)
@@ -186,8 +185,7 @@ int pe11(void)
 				highest = product;
 			if (product1 > highest)
 				highest = product1;
-		}
-		
+		}	
 	printf("%i\n", highest);
 	fclose(in);
 }
