@@ -21,7 +21,6 @@ void freelist(node *list);
 int lexi(long x);
 void heap(char digits[], int n, long *patterns, int *count);
 void merge(long list[], int start, int end);
-char * fib(char *one, char *two);
 
 void pe1(void)
 {
@@ -499,9 +498,9 @@ void pe24(void)
 
 void pe25(void)
 {
-    char *one = malloc(1000);
-    char *two = malloc(1000);
-    for (int i = 0; i < 1000; i++)
+    char one[1000];
+    char two[1000];
+    for (int i = 1; i < 1000; i++)
     {
         one[i] = 0;
         two[i] = 0;
@@ -509,16 +508,23 @@ void pe25(void)
     
     one[0] = 1;
     two[0] = 1;
+    char temp;
     int count = 2;
     
     while (!two[999])
     {
-        one = fib(one, two);
+        int carry = 0;
+        for (int i = 0, j = count * (count < 1000) + 1000 * (count > 1000); i < j; i++)
+        {
+            temp = two[i];
+            carry += one[i] + two[i];
+            two[i] = carry % 10;
+            carry /= 10;
+            one[i] = temp;
+        }
         count++;
     }
     printf("%i\n", count);
-    free(one);
-    free(two);
 }
 
 void pe67(void)
@@ -935,19 +941,4 @@ void merge(long list[], int start, int end)
         }
     }
     free(temp);
-}
-
-char * fib(char *one, char *two)
-{
-    char *temp = malloc(1000);
-    int carry = 0;
-    for (int i = 0; i < 1000; i++)
-    {
-        temp[i] = two[i];
-        carry += one[i] + two[i];
-        two[i] = carry % 10;
-        carry /= 10;
-    }
-    free(one);
-    return temp;
 }
