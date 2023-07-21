@@ -21,6 +21,7 @@ void freelist(node *list);
 int lexi(long x);
 void heap(char digits[], int n, long *patterns, int *count);
 void merge(long list[], int start, int end);
+int recurring(int x);
 
 void pe1(void)
 {
@@ -527,6 +528,24 @@ void pe25(void)
     printf("%i\n", count);
 }
 
+void pe26(void)
+{
+	int highest = 0; 
+	int ans;
+	
+	for (int i = 1; i < 1000; i += 2)
+	{
+		int x = recurring(i);
+		if (x > highest)
+		{
+			highest = x;
+			ans = i;
+		}
+		//printf("%.3i %.3i\n", x, i);
+	}
+	printf("%i %i\n", highest, ans);
+}
+
 void pe67(void)
 {
     FILE *in = fopen("pe67.txt", "r");
@@ -638,6 +657,9 @@ int main(int argc, char *argv[])
         case 25:
             pe25();
             break;
+        case 26:
+        	pe26();
+        	break;
         case 67:
             pe67();
             break;
@@ -942,3 +964,35 @@ void merge(long list[], int start, int end)
     }
     free(temp);
 }
+
+int recurring(int x)
+{
+	int decimals[1000];
+	int a = 10;
+	
+	for (int i = 0; i < 6; i++)
+	{
+		decimals[i] = a / x;
+		a %= x;
+		a *= 10;
+	}
+	
+	for (int i = 6; i < 1000; i++)
+	{
+		decimals[i] = a / x;
+		a %= x;
+		a *= 10;
+		
+		if (!a) // when the decimal stops it is not recurring
+			return 0;
+			
+		if (decimals[3] == decimals[i - 2])
+			if (decimals[4] == decimals[i - 1])
+				if (decimals[5] == decimals[i])
+					return i - 5;
+	}
+	return 0;
+}
+
+
+
