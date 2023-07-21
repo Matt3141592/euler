@@ -582,91 +582,91 @@ int main(int argc, char *argv[])
 	
 	switch (x)
 	{
-        case 1:
-            pe1();
-            break;
-        case 2:
-            pe2();
-            break;
-        case 3:
-            pe3();
-            break;
-        case 4:
-            pe4();
-            break;
-        case 5:
-            pe5();
-            break;
-        case 6:
-            pe6();
-            break;
-        case 7:
-            pe7();
-            break;
-        case 8:
-            pe8();
-            break;
-        case 9:
-            pe9();
-            break;
-        case 10:
-            pe10();
-            break;
-        case 11:
-            pe11();
-            break;
-        case 12:
-            pe12();
-            break;
-        case 13:
-            pe13();
-            break;
-        case 14:
-            pe14();
-            break;
-        case 15:
-            pe15();
-            break;
-        case 16:
-            pe16();
-            break;
-        case 17:
-            pe17();
-            break;
-        case 18:
-            pe18();
-            break;
-        case 19:
-            pe19();
-            break;
-        case 20:
-            pe20();
-            break;
-        case 21:
-            pe21();
-            break;
-        case 22:
-            pe22();
-            break;
-        case 23:
-            pe23();
-            break;
-        case 24:
-            pe24();
-            break;
-        case 25:
-            pe25();
-            break;
-        case 26:
-        	pe26();
-        	break;
-        case 67:
-            pe67();
-            break;
-            
+		case 1:
+			pe1();
+			break;
+		case 2:
+			pe2();
+			break;
+		case 3:
+			pe3();
+			break;
+		case 4:
+			pe4();
+			break;	
+		case 5:
+			pe5();
+			break;
+		case 6:
+			pe6();
+			break;	
+		case 7:
+			pe7();
+			break;
+		case 8:
+			pe8();
+			break;	
+		case 9:
+			pe9();
+			break;
+		case 10:
+			pe10();
+			break;	
+		case 11:
+			pe11();
+			break;
+		case 12:
+			pe12();
+			break;	
+		case 13:
+			pe13();
+			break;
+		case 14:
+			pe14();
+			break;	
+		case 15:
+			pe15();
+			break;
+		case 16:
+			pe16();
+			break;	
+		case 17:
+			pe17();
+			break;
+		case 18:
+			pe18();
+			break;		
+		case 19:
+			pe19();
+			break;
+		case 20:
+			pe20();
+			break;		
+		case 21:
+			pe21();
+			break;
+		case 22:
+			pe22();
+			break;
+		case 23:
+			pe23();
+			break;
+		case 24:
+			pe24();
+			break;
+		case 25:
+			pe25();
+			break;
+		case 26:
+			pe26();
+			break;
+		case 67:
+			pe67();
+			break;
 		default:
-		printf("Invalid\n");
+			printf("Invalid\n");		
 	}
+	
 	printf("%f\n", (double)(clock() - begin) / CLOCKS_PER_SEC);
 }
 
