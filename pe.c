@@ -546,6 +546,26 @@ void pe26(void)
 	printf("%i %i\n", highest, ans);
 }
 
+void pe27(void)
+{
+	int ans;
+	int longest = 0;
+	
+	for (int i = -999; i < 1000; i++)
+		for (int j = -1000; j < 1001; j++)
+		{
+			int x = 0;
+			while (prime(x * x + i * x + j))
+				x++;
+			if (x > longest)
+			{
+				longest = x;
+				ans = i * j;
+			}
+		}
+	printf("%i %i\n", longest, ans);
+}
+
 void pe67(void)
 {
     FILE *in = fopen("pe67.txt", "r");
@@ -660,6 +680,9 @@ int main(int argc, char *argv[])
 		case 26:
 			pe26();
 			break;
+		case 27:
+			pe27();
+			break;
 		case 67:
 			pe67();
 			break;
@@ -672,7 +695,7 @@ int main(int argc, char *argv[])
 
 int prime(long x)
 {
-	if (x == 1)
+	if (x < 2)
 		return 0;
 	
 	for (long i = 2; i * i <= x; i++)
