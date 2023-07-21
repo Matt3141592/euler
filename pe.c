@@ -309,7 +309,7 @@ void pe17(void)
     int onetonine = 36; // 3 3 5 4 4 3 5 5 4
     int and = 3;
     int hundred = 7;
-    int teens = 69; // 3 6 6 8 8 7 7 9 8 8
+    int teens = 70; // 3 6 6 8 8 7 7 9 8 8
     int tens = 46; // 6 6 5 5 5 7 6 6
     
     total += onetonine * 90;
