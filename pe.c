@@ -582,37 +582,37 @@ int main(int argc, char *argv[])
 	
 	switch (x)
 	{
-		case 1:
+        case 1:
             pe1();
             break;
-		case 2:
+        case 2:
             pe2();
             break;
-		case 3:
+        case 3:
             pe3();
             break;
-		case 4:
+        case 4:
             pe4();
             break;
-		case 5:
+        case 5:
             pe5();
             break;
-		case 6:
+        case 6:
             pe6();
             break;
-		case 7:
+        case 7:
             pe7();
             break;
-		case 8:
+        case 8:
             pe8();
             break;
-		case 9:
+        case 9:
             pe9();
             break;
-		case 10:
+        case 10:
             pe10();
             break;
-		case 11:
+        case 11:
             pe11();
             break;
         case 12:
