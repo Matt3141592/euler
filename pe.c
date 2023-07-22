@@ -458,10 +458,7 @@ void pe23(void)
     int abundant[28123];
     int summable[28123];
     for (int i = 0; i < 28123; i++)
-    {
-        abundant[i] = 0;
         summable[i] = 0;
-    }
     
     for (int i = 1; i < 28123; i++)
     {
@@ -548,13 +545,17 @@ void pe26(void)
 
 void pe27(void)
 {
+	// j must be a prime because it must satisfy x = 0. 
 	int ans;
 	int longest = 0;
+	int *primes = primegen(1000);
 	
-	for (int i = -999; i < 1000; i++)
-		for (int j = -1000; j < 1001; j++)
+	for (int i = -999; i < 1000; i ++)
+	{
+		int k = -1;
+		while (primes[++k])
 		{
-			int x = 0;
+			int x = 0, j = primes[k];
 			while (prime(x * x + i * x + j))
 				x++;
 			if (x > longest)
@@ -563,7 +564,17 @@ void pe27(void)
 				ans = i * j;
 			}
 		}
+	}
 	printf("%i %i\n", longest, ans);
+	free(primes);
+}
+
+void pe28(void)
+{
+	int sum = 1;
+	for (int i = 3; i < 1002; i += 2)
+		sum += (4 * i * i) - (6 * (i - 1));
+	printf("%i\n", sum);
 }
 
 void pe67(void)
@@ -682,6 +693,9 @@ int main(int argc, char *argv[])
 			break;
 		case 27:
 			pe27();
+			break;
+		case 28:
+			pe28();
 			break;
 		case 67:
 			pe67();
