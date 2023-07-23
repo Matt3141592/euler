@@ -609,9 +609,9 @@ void pe28(void)
 void pe29(void)
 {
 	int distinct[7], arr[601], count = 0;
+	distinct[0] = 0;
 	for (int i = 0; i < 601; i++)
 		arr[i] = 0;
-	distinct[0] = 0;
 	
 	for (int i = 1; i < 7; i++)
 	{
@@ -639,6 +639,32 @@ void pe29(void)
 		count += distinct[x];
 	}
 	printf("%i\n", count);
+}
+
+void pe30(void)
+{
+	int pows[10];
+	for (int i = 0; i < 10; i++)
+	{
+		pows[i] = 1;
+		for (int j = 0; j < 5; j++)
+			pows[i] *= i;
+	}
+	
+	int ans = 0;
+	for (int a = 0; a < 4; a++)
+		for (int b = 0; b < 10; b++)
+			for (int c = 0; c < 10; c++)
+				for (int d = 0; d < 10; d++)
+					for (int e = 1; e < 10; e++)
+						for (int f = 0; f < 10; f++)
+						{
+							int sum = pows[a] + pows[b] + pows[c] + pows[d] + pows[e] + pows[f];
+							int n = f + 10 * e + 100 * d + 1000 * c + 10000 * b + 100000 * a;
+							if (sum == n)
+								ans += sum;
+						}
+	printf("%i\n", ans);
 }
 
 void pe67(void)
@@ -763,6 +789,9 @@ int main(int argc, char *argv[])
 			break;
 		case 29:
 			pe29();
+			break;
+		case 30:
+			pe30();
 			break;
 		case 67:
 			pe67();
