@@ -512,7 +512,7 @@ void pe25(void)
     while (!two[999])
     {
         int carry = 0;
-        for (int i = 0, j = count * (count < 1000) + 1000 * (count > 1000); i < j; i++)
+        for (int i = 0; i < 1000; i++)
         {
             temp = two[i];
             carry += one[i] + two[i];
@@ -575,6 +575,70 @@ void pe28(void)
 	for (int i = 3; i < 1002; i += 2)
 		sum += (4 * i * i) - (6 * (i - 1));
 	printf("%i\n", sum);
+}
+
+/*void pe29(void)
+{
+	int nums[101];
+	int count = 0;
+	
+	for (int i = 0; i < 101; i++)
+		nums[i] = 1;
+	
+	for (int i = 2; i < 101; i++)
+		if (nums[i])
+		{
+			int arr[601];
+			for (int j = 0; j < 601; j++)
+				arr[j] = 0;
+			int x = 1, y = i;
+			while (y <= 100 && nums[y])
+			{
+				for (int k = 1; k <= 100; k++)
+					arr[k * x] = 1;
+				x++;
+				nums[y] = 0;
+				y *= i;
+			}
+			for (int k = 2; k < 601; k++)
+				count += arr[k];
+		}
+	printf("%i\n", count);
+}*/
+
+void pe29(void)
+{
+	int distinct[7], arr[601], count = 0;
+	for (int i = 0; i < 601; i++)
+		arr[i] = 0;
+	distinct[0] = 0;
+	
+	for (int i = 1; i < 7; i++)
+	{
+		for (int j = 2; j <= 100; j++)
+			arr[i * j] = 1;
+		int sum = 0;
+		for (int j = 2; j <= i * 100; j++)
+			sum += arr[j];
+		distinct[i] = sum;
+	}
+	
+	int nums[101];
+	for (int i = 0; i < 101; i++)
+		nums[i] = 1;
+	
+	for (int i = 2; i < 101; i++)
+	{
+		int x = 0, y = i;
+		while (y <= 100 && nums[y])
+		{
+			x++;
+			nums[y] = 0;
+			y *= i;
+		}
+		count += distinct[x];
+	}
+	printf("%i\n", count);
 }
 
 void pe67(void)
@@ -696,6 +760,9 @@ int main(int argc, char *argv[])
 			break;
 		case 28:
 			pe28();
+			break;
+		case 29:
+			pe29();
 			break;
 		case 67:
 			pe67();
