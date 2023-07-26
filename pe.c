@@ -23,6 +23,7 @@ void heap(char digits[], int n, long *patterns, int *count);
 void merge(long list[], int start, int end);
 int recurring(int x);
 int coin(int coins[], int target, int x);
+int digit_cancelling(int x, int y);
 
 void pe1(void)
 {
@@ -716,7 +717,44 @@ void pe32(void)
 		ans += products[i];
 	printf("%i\n", ans);
 }
+
+void pe33(void)
+{
+	int top = 1, bottom = 1;
+	
+	for (int i = 11; i < 100; i++)
+		for (int j = i + 1; j < 100; j++)
+			if (digit_cancelling(i,j))
+			{
+				top *= i;
+				bottom *= j;
+			}
+	printf("%i %i\n", top, bottom);
+}
+
+void pe34(void)
+{
+	int factorial[10] = {1};
+	int ans = 0;
+	for (int i = 1; i < 10; i++)
+		factorial[i] = i * factorial[i - 1];
+	
+	for (int i = 3; i < 10000000; i++)
+	{
+		int sum = 0;
+		int x = i;
+		while (x)
+		{
+			sum += factorial[x % 10];
+			x /= 10;
+		}
 		
+		if (sum == i)
+			ans += sum;
+	}
+	
+	printf("%i\n", ans);
+} 		
 
 void pe67(void)
 {
@@ -849,6 +887,12 @@ int main(int argc, char *argv[])
 			break;
 		case 32:
 			pe32();
+			break;
+		case 33:
+			pe33();
+			break;
+		case 34:
+			pe34();
 			break;
 		case 67:
 			pe67();
@@ -1194,5 +1238,30 @@ int coin(int coins[], int target, int x)
 		target -= coins[x];
 	}
 	return ans + !target;
+}
+
+int digit_cancelling(int x, int y)
+{
+	float b = x % 10;
+	float a = x / 10;
+	float d = y % 10;
+	float c = y / 10;
+
+	if (!b || !d)
+		return 0;
+	
+	if (a == b || c == d)
+		return 0;
+		
+	float div = (float)x / y;
+	if (a == c)
+		return (div == b / d);
+	if (a == d)
+		return (div == b / c);
+	if (b == c)
+		return (div == a / d);
+	if (b == d)
+		return (div == a / c);
+	return 0;
 }
 
