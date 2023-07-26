@@ -18,10 +18,11 @@ int factors(int x, int *primes);
 int collatz(long x);
 node *quick(node *list);
 void freelist(node *list);
-int lexi(long x);
+int lexi(char *str);
 void heap(char digits[], int n, long *patterns, int *count);
 void merge(long list[], int start, int end);
 int recurring(int x);
+int coin(int coins[], int target, int x);
 
 void pe1(void)
 {
@@ -608,10 +609,8 @@ void pe28(void)
 
 void pe29(void)
 {
-	int distinct[7], arr[601], count = 0;
+	int distinct[7], arr[601] = {0}, count = 0;
 	distinct[0] = 0;
-	for (int i = 0; i < 601; i++)
-		arr[i] = 0;
 	
 	for (int i = 1; i < 7; i++)
 	{
@@ -656,16 +655,68 @@ void pe30(void)
 		for (int b = 0; b < 10; b++)
 			for (int c = 0; c < 10; c++)
 				for (int d = 0; d < 10; d++)
-					for (int e = 1; e < 10; e++)
+					for (int e = 0; e < 10; e++)
 						for (int f = 0; f < 10; f++)
 						{
 							int sum = pows[a] + pows[b] + pows[c] + pows[d] + pows[e] + pows[f];
 							int n = f + 10 * e + 100 * d + 1000 * c + 10000 * b + 100000 * a;
 							if (sum == n)
-								ans += sum;
+								ans += n;
 						}
+	printf("%i\n", ans - 1);
+}
+
+/*void pe31(void)
+{
+	// solution from project euler, initially brute forced.
+	int coins[] = {1,2,5,10,20,50,100,200};
+	printf("%i\n", coin(coins, 200, 7)); 
+}*/
+
+void pe31(void)
+{
+	// soloution from project euler.
+	int coins[] = {1,2,5,10,20,50,100,200};
+	int ans[201] = {1};
+	
+	for (int i = 0; i < 8; i++)
+		for (int j = coins[i]; j < 201; j++)
+		{
+			ans[j] += ans[j - coins[i]];
+			printf("%i ", ans[j]);
+			}
+	printf("%i\n", ans[10]);
+}
+
+void pe32(void)
+{
+	int products[100] = {0};
+	int count = 0;
+	
+	for (int i = 2; i < 100; i++)
+		for (int j = i + 1; j < 5000; j++)
+		{
+			int product = i * j;
+			char str[12];
+			sprintf(str,"%d%d%d", i,j,product);
+			if (strlen(str) > 9)
+				break;
+			if (strlen(str) == 9)
+				if (lexi(str))
+				{
+					int found = 0;
+					for (int k = 0; k < count; k++)
+						found += product == products[k];
+					if (!found)
+						products[count++] = product;
+				}
+		}
+	int ans = 0;
+	for (int i = 0; i < count; i++)
+		ans += products[i];
 	printf("%i\n", ans);
 }
+		
 
 void pe67(void)
 {
@@ -792,6 +843,12 @@ int main(int argc, char *argv[])
 			break;
 		case 30:
 			pe30();
+			break;
+		case 31:
+			pe31();
+			break;
+		case 32:
+			pe32();
 			break;
 		case 67:
 			pe67();
@@ -990,10 +1047,8 @@ node *quick(node *list)
     return small;
 }
 
-int lexi(long x)
+int lexi(char *str)
 {
-    char str[11];
-    sprintf(str, "%li", x);
     char *p = str;
     int nums[10];
     
@@ -1127,5 +1182,17 @@ int recurring(int x)
 	return 0;
 }
 
+int coin(int coins[], int target, int x)
+{
+	if (!x) // when down to 1s, can always make up the amount
+		return 1;
 
+	int ans = 0;
+	while (x && target > 0)
+	{
+		ans += coin(coins, target, x - 1);
+		target -= coins[x];
+	}
+	return ans + !target;
+}
 
