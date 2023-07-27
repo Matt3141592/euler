@@ -11,7 +11,8 @@ typedef struct node
 }node;
 
 int prime(long x);
-int palindrome(int x);
+int palindrome(char *str);
+int *primegen_array(int x);
 int *primegen(int x);
 int m(int a, int b, int c);
 int factors(int x, int *primes);
@@ -24,6 +25,8 @@ void merge(long list[], int start, int end);
 int recurring(int x);
 int coin(int coins[], int target, int x);
 int digit_cancelling(int x, int y);
+int circular(int x, int *primes);
+char *base2(int x);
 
 void pe1(void)
 {
@@ -68,7 +71,9 @@ void pe4(void)
 		for (int j = i; j < 1000; j++)
 		{
 			int x = i * j;
-			if (palindrome(x))
+			char str[10];
+			sprintf(str, "%d", x);
+			if (palindrome(str))
 				if (x > highest)
 					highest = x;
 		}
@@ -756,6 +761,52 @@ void pe34(void)
 	printf("%i\n", ans);
 } 		
 
+void pe35(void)
+{
+	int *primes = primegen_array(1000000);
+	int count = 1;
+	
+	for (int i = 3; i < 1000000; i += 2)
+		if (primes[i])
+			count += circular(i, primes);
+	
+	printf("%i\n", count);
+	free(primes);
+}
+
+void pe36(void)
+{
+	int sum = 0;
+	for (int i = 1; i < 1000; i++)
+	{
+		char str[4];
+		sprintf(str, "%d", i);
+		int x = strlen(str);
+		
+		char palin[6];
+		strcpy(palin, str);
+		for (int j = x - 2; j >= 0; j--)
+			palin[(x << 1) - j - 2] = str[j];
+		palin[(x << 1) - 1] = '\0';
+		
+		int num = atoi(palin);
+		char *bin = base2(num);
+		sum += palindrome(bin) * num;
+		free(bin);
+		
+		strcpy(palin,str);
+		for (int j = x - 1; j >= 0; j--)
+			palin[(x << 1) - j - 1] = str[j];
+		palin[(x << 1)] = '\0';
+		
+		num = atoi(palin);
+		bin = base2(num);
+		sum += palindrome(bin) * num;
+		free(bin);
+	}
+	printf("%i\n", sum);
+}
+
 void pe67(void)
 {
     FILE *in = fopen("pe67.txt", "r");
@@ -894,6 +945,12 @@ int main(int argc, char *argv[])
 		case 34:
 			pe34();
 			break;
+		case 35:
+			pe35();
+			break;
+		case 36:
+			pe36();
+			break;
 		case 67:
 			pe67();
 			break;
@@ -916,10 +973,8 @@ int prime(long x)
 	return 1;
 }
 
-int palindrome(int x)
+int palindrome(char *str)
 {
-	char str[50]; 
-	sprintf(str, "%i", x);
 	int i = strlen(str) - 1;
 
 	for (int a = 0; a <= i / 2; a++)
@@ -928,19 +983,22 @@ int palindrome(int x)
 	return 1;
 }
 
-/*int *primegen(int x)
+int *primegen_array(int x)
 {
 	int *arr = malloc(sizeof(int) * (x+1));
-	
+	for (int i = 0; i < x; i++)
+		arr[i] = 0;
+		
+	arr[2] = 1;
 	for (int i = 3; i <= x; i += 2)
 		arr[i] = 1;
 		
 	for (int i = 3; i * i <= x; i += 2)
 		if (arr[i])
-			for (int j = i + i; j <= x; j += i)
+			for (int j = i << 1; j <= x; j += i)
 				arr[j] = 0;
- 
-    int count = 2;
+ 	return arr;
+    /*int count = 2;
     for (int i = 3; i <= x; i += 2)
         if (arr[i])
             count++;
@@ -953,8 +1011,8 @@ int palindrome(int x)
 		if (arr[i])
 			primes[count++] = i;
     free(arr);
-	return primes;
-}*/
+	return primes;*/
+}
 
 int *primegen(int x)
 {
@@ -1265,3 +1323,35 @@ int digit_cancelling(int x, int y)
 	return 0;
 }
 
+int circular(int x, int *primes)
+{	
+	char str[10];
+	sprintf(str, "%d", x);
+	int len = strlen(str);
+	
+	for (int i = 1; i < len; i++)
+	{
+		int rotated = 0;
+		for (int j = i; j < i + len; j++)
+		{
+			rotated *= 10;
+			rotated += str[j % len] - '0';
+		}
+		if (!prime(rotated))
+			return 0;
+	}
+	return 1;
+}
+
+char *base2(int x) //backwards
+{
+	char *str = malloc(20);
+	int i = 0;
+	while (x)
+	{
+		str[i++] = (x & 1) + '0';
+		x = x >> 1;
+	}
+	str[i] = '\0';
+	return str;
+}
