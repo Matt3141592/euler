@@ -27,6 +27,7 @@ int coin(int coins[], int target, int x);
 int digit_cancelling(int x, int y);
 int circular(int x, int *primes);
 char *base2(int x);
+int truncatable(int x);
 
 void pe1(void)
 {
@@ -807,6 +808,27 @@ void pe36(void)
 	printf("%i\n", sum);
 }
 
+void pe37(void)
+{
+	int sum = 0;
+	int count = 0;
+	int *primes = primegen(1000000);
+	int *p = primes;
+	
+	while (count != 11 && *primes)
+	{
+		int x = *primes++;
+		if (truncatable(x))
+		{
+			sum += x;
+			count++;
+		}
+	}
+	printf("%i\n", sum);
+	free(p);
+}
+		
+		
 void pe67(void)
 {
     FILE *in = fopen("pe67.txt", "r");
@@ -950,6 +972,9 @@ int main(int argc, char *argv[])
 			break;
 		case 36:
 			pe36();
+			break;
+		case 37:
+			pe37();
 			break;
 		case 67:
 			pe67();
@@ -1354,4 +1379,31 @@ char *base2(int x) //backwards
 	}
 	str[i] = '\0';
 	return str;
+}
+
+int truncatable(int x)
+{
+	char str[10];
+	sprintf(str, "%d", x);
+	int len = strlen(str);
+	if (len == 1)
+		return 0;
+	
+	char str2[10];
+	strcpy(str2, str);
+	
+	for (int i = len - 1; i > 0; i--)
+	{
+		str[i] = '\0';
+		if (!prime(atoi(str)))
+			return 0;
+	}
+	
+	for (int i = 0; i < len - 1; i++)
+	{
+		str2[i] = '0';
+		if (!prime(atoi(str2)))
+			return 0;
+	}
+	return 1;
 }
