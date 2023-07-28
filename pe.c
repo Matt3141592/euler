@@ -827,6 +827,35 @@ void pe37(void)
 	printf("%i\n", sum);
 	free(p);
 }
+
+void pe38(void)
+{
+	long highest = 0;
+	for (int i = 1; i < 10000; i++)
+	{
+		int x = 2;
+		char str[20];
+		char temp[10];
+		sprintf(str, "%d", i);
+		
+		while (strlen(str) < 9)
+		{
+			sprintf(temp, "%d", i * x++);
+			strcat(str, temp);
+		}
+		
+		if (strlen(str) != 9)
+			continue;
+		
+		if (lexi(str))
+		{
+			long n = atol(str);
+			if (n > highest)
+				highest = n;
+		}
+	}
+	printf("%li\n", highest);
+}
 		
 		
 void pe67(void)
@@ -975,6 +1004,9 @@ int main(int argc, char *argv[])
 			break;
 		case 37:
 			pe37();
+			break;
+		case 38:
+			pe38();
 			break;
 		case 67:
 			pe67();
@@ -1176,14 +1208,10 @@ node *quick(node *list)
 
 int lexi(char *str)
 {
-    char *p = str;
-    int nums[10];
+    int nums[10] = {0};
     
-    for (int i = 0; i < 10; i++)
-        nums[i] = 0;
-    
-    while (*p)
-        nums[*p++ - '0']++;
+    while (*str)
+        nums[*str++ - '0']++;
     
     for (int i = 1; i < 10; i++)
         if (nums[i] != 1)
@@ -1389,21 +1417,16 @@ int truncatable(int x)
 	if (len == 1)
 		return 0;
 	
-	char str2[10];
-	strcpy(str2, str);
-	
-	for (int i = len - 1; i > 0; i--)
+	for (int i = 0; i < len - 1; i++)
 	{
-		str[i] = '\0';
+		x /= 10;
+		if (!prime(x))
+			return 0;
+			
+		str[i] = '0';
 		if (!prime(atoi(str)))
 			return 0;
 	}
-	
-	for (int i = 0; i < len - 1; i++)
-	{
-		str2[i] = '0';
-		if (!prime(atoi(str2)))
-			return 0;
-	}
+
 	return 1;
 }
