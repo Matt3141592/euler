@@ -15,6 +15,7 @@ int palindrome(char *str);
 int *primegen_array(int x);
 int *primegen(int x);
 int m(int a, int b, int c);
+int m2(int a, int b, int c, int arr[1001]);
 int factors(int x, int *primes);
 int collatz(long x);
 node *quick(node *list);
@@ -856,7 +857,23 @@ void pe38(void)
 	}
 	printf("%li\n", highest);
 }
-		
+
+void pe39(void)
+{
+	int arr[1001] = {0};
+	m2(3,4,5,arr);
+	
+	int most = 0;
+	int ans;
+	
+	for (int i = 0; i < 1001; i++)
+		if (arr[i] > most)
+		{
+			ans = i;
+			most = arr[i];
+		}
+	printf("%i\n", ans);
+}		
 		
 void pe67(void)
 {
@@ -1008,6 +1025,9 @@ int main(int argc, char *argv[])
 		case 38:
 			pe38();
 			break;
+		case 39:
+			pe39();
+			break;
 		case 67:
 			pe67();
 			break;
@@ -1120,6 +1140,28 @@ int m(int a, int b, int c)
 	if (m(-a + (b<<1) + 2*c, -(a<<1) + b + (c<<1), -(a<<1) + (b<<1) + (c<<1) + c))
 		return 1;
 	if (m(a - (b<<1) + 2*c, (a<<1) - b + (c<<1), (a<<1) - (b<<1) + (c<<1) + c))
+		return 1;
+    return 0;
+}
+
+int m2(int a, int b, int c, int arr[1001])
+{
+	int sum = a + b + c;
+	if (sum > 1000)
+		return 0;
+	
+	int x = sum;
+	while (x <= 1000)
+	{
+		arr[x]++;
+		x += sum;
+	}
+	
+	if (m2(a + (b<<1) + 2*c, (a<<1) + b + (c<<1), (a<<1) + (b<<1) + (c<<1) + c, arr))
+		return 1;
+	if (m2(-a + (b<<1) + 2*c, -(a<<1) + b + (c<<1), -(a<<1) + (b<<1) + (c<<1) + c, arr))
+		return 1;
+	if (m2(a - (b<<1) + 2*c, (a<<1) - b + (c<<1), (a<<1) - (b<<1) + (c<<1) + c, arr))
 		return 1;
     return 0;
 }
