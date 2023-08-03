@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 
 typedef struct node
 {
@@ -169,7 +170,7 @@ void pe11(void)
 {
 	FILE *in = fopen("grid.txt", "r");
     if (in == NULL)
-        return;
+		return;
 	char buffer[2];
 	int arr[20][20];
     int highest;
@@ -874,6 +875,29 @@ void pe39(void)
 		}
 	printf("%i\n", ans);
 }		
+
+void pe40(void)
+{
+	int ans = 1;
+	int count = 0;
+	int len = -1;
+	char str[10];
+	
+	for (int i = 1; i < 10000000; i++)
+	{
+		count += log10(i) + 1;
+		if ((int)log10(count) > len)
+		{
+			len++;
+			sprintf(str, "%d", i);
+			ans *= str[strlen(str) - count + (int)pow(10,len) - 1] - '0';
+		}
+		
+		if (count >= 1000000)
+			break;
+	}
+	printf("%i\n", ans);
+}
 		
 void pe67(void)
 {
@@ -1027,6 +1051,9 @@ int main(int argc, char *argv[])
 			break;
 		case 39:
 			pe39();
+			break;
+		case 40:
+			pe40();
 			break;
 		case 67:
 			pe67();
@@ -1432,7 +1459,7 @@ int circular(int x, int *primes)
 			rotated *= 10;
 			rotated += str[j % len] - '0';
 		}
-		if (!prime(rotated))
+		if (!primes[rotated])
 			return 0;
 	}
 	return 1;
