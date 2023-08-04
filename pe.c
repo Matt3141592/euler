@@ -21,7 +21,7 @@ int factors(int x, int *primes);
 int collatz(long x);
 node *quick(node *list);
 void freelist(node *list);
-int lexi(char *str);
+int pan(char *str);
 void heap(char digits[], int n, long *patterns, int *count);
 void merge(long list[], int start, int end);
 int recurring(int x);
@@ -711,7 +711,7 @@ void pe32(void)
 			if (strlen(str) > 9)
 				break;
 			if (strlen(str) == 9)
-				if (lexi(str))
+				if (pan(str))
 				{
 					int found = 0;
 					for (int k = 0; k < count; k++)
@@ -849,7 +849,7 @@ void pe38(void)
 		if (strlen(str) != 9)
 			continue;
 		
-		if (lexi(str))
+		if (pan(str))
 		{
 			long n = atol(str);
 			if (n > highest)
@@ -1275,14 +1275,15 @@ node *quick(node *list)
     return small;
 }
 
-int lexi(char *str)
+int pan(char *str)
 {
+	int x = strlen(str);
     int nums[10] = {0};
     
     while (*str)
         nums[*str++ - '0']++;
     
-    for (int i = 1; i < 10; i++)
+    for (int i = 1; i < x; i++)
         if (nums[i] != 1)
             return 0;
     
