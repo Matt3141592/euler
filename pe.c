@@ -434,7 +434,7 @@ void pe22(void)
         buckets[i] = NULL;
     
     char *name = strtok(buffer, "\",\"");
-    while (name != NULL)
+    while (name)
     {
         node *n = malloc(sizeof(node));
         strcpy(n -> str, name);
@@ -898,6 +898,52 @@ void pe40(void)
 	}
 	printf("%i\n", ans);
 }
+
+void pe41(void)
+{
+	int highest = 0;
+	int *primes = primegen(7654321); // cannot be 8 or 9 pandigital as it would be a multiple of 3
+	int *p = primes;
+	char str[10];
+	
+	while (*p)
+	{
+		sprintf(str, "%d", *p);
+		if (pan(str))
+			highest = *p; // checking in order so don't need to check if it's higher than the last
+		p++;
+	}
+	
+	printf("%i\n", highest);
+	free(primes);
+}
+
+void pe42(void)
+{
+	int ans = 0;
+	int triangles[500] = {0};
+	for (int i = 1, j = 2; i < 500; i += j, j++)
+		triangles[i] = 1;
+		
+	FILE *in = fopen("pe42.txt", "r");
+	char buffer[50000];
+	fscanf(in, "%s", buffer);
+	fclose(in);
+	
+	char *word = strtok(buffer, "\",\"");
+	char *temp;
+	while ((temp = word))
+	{
+		int sum = 0;
+		while (*temp)
+			sum += *(temp++) - '@';
+		if (triangles[sum])
+			ans++;
+		word = strtok(NULL, "\",\"");
+	}
+	
+	printf("%i\n", ans);
+}
 		
 void pe67(void)
 {
@@ -1054,6 +1100,12 @@ int main(int argc, char *argv[])
 			break;
 		case 40:
 			pe40();
+			break;
+		case 41:
+			pe41();
+			break;
+		case 42:
+			pe42();
 			break;
 		case 67:
 			pe67();
@@ -1277,7 +1329,7 @@ node *quick(node *list)
 
 int pan(char *str)
 {
-	int x = strlen(str);
+	int x = strlen(str) + 1;
     int nums[10] = {0};
     
     while (*str)
@@ -1286,6 +1338,10 @@ int pan(char *str)
     for (int i = 1; i < x; i++)
         if (nums[i] != 1)
             return 0;
+    
+    for (int i = x; i < 10; i++)
+    	if (nums[i] != 0)
+    		return 0;
     
     return nums[0] < 1;
 }
