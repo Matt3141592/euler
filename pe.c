@@ -10,7 +10,7 @@ typedef struct node
     char str[15];
     struct node *next;
 }node;
-
+//test
 int prime(long x);
 int palindrome(char *str);
 int *primegen_array(int x);
