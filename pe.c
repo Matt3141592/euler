@@ -57,8 +57,8 @@ void pe3(void)
 {
 	long x = 600851475143;
 	long ans;
-	for (long i = 3; i * i <= x; i += 2)
-		if (!(x % i))
+	for (long i = 3; i <= x; i += 2)
+		while (!(x % i))
         {
             x /= i;
             if (prime(i))
